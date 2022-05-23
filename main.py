@@ -20,7 +20,7 @@ balance_LUNA_dict = client.get_asset_balance(asset='LUNA')
 balance_LUNA = float(balance_LUNA_dict['free'])
 prices = client.get_all_tickers()
 
-LUNA_price = 0.0
+LUNA_price = 1000000000000
 for h in prices:
     if h['symbol'] == "LUNABUSD":
         LUNA_price = float(h['price'])
