@@ -1,7 +1,6 @@
-import Constants
-from Calcultions import sma_trade_logic_hourly_oneday, ma, log
+from Secret import Constants
+from Calculations import sma_trade_logic_hourly_oneday, ma, log
 from binance import Client
-import binance.enums
 from datetime import datetime
 
 
