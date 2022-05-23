@@ -24,7 +24,7 @@ LUNA_price = 1000000000000
 for h in prices:
     if h['symbol'] == "LUNABUSD":
         LUNA_price = float(h['price'])
-buy_or_sell_amount = int((balance_BUSD - (0.02 * balance_BUSD)) / LUNA_price)
+buy_or_sell_amount = int((0.98 * balance_BUSD) / LUNA_price)
 
 # Determine the MA's
 ma_6 = round(ma(closing_list, 6), 8)
