@@ -24,7 +24,7 @@ LUNA_price = 1000000000000
 for h in prices:
     if h['symbol'] == "LUNABUSD":
         LUNA_price = float(h['price'])
-buy_or_sell_amount = int((0.98 * balance_BUSD) / LUNA_price)
+buy_amount = int((0.98 * balance_BUSD) / LUNA_price)
 
 # Determine the MA's
 ma_6 = round(ma(closing_list, 6), 8)
@@ -36,7 +36,7 @@ if (ma_6 >= ma_18) & (balance_LUNA == 0):
     # Buy order
     buy_order = client.order_market_buy(
         symbol='LUNABUSD',
-        quantity=buy_or_sell_amount)
+        quantity=buy_amount)
     log_list.append('Buy LUNA')
 elif (ma_6 > ma_18) & (balance_LUNA != 0):
     # sell order
@@ -44,12 +44,14 @@ elif (ma_6 > ma_18) & (balance_LUNA != 0):
         symbol='LUNABUSD',
         quantity=balance_LUNA)
     log_list.append('Sell LUNA')
+    buy_amount = int(0)
 else:
-    log_list.append('Do Nothing')
+    log_list.append('No action')
+    buy_amount = int(0)
 
 
 # register al off the action
-log_list.append(str(buy_or_sell_amount))
+log_list.append(str(buy_amount))
 log_list.append(str(LUNA_price))
 log_list.append(str(ma_6))
 log_list.append(str(ma_18))

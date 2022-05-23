@@ -32,6 +32,5 @@ def sma_trade_logic_hourly_oneday(bar_list):
 def log(log_list):
     final_string = ",".join(log_list)
     with open('Secret/log.csv', 'a') as f:
-        f.write('\n')
-        f.write(final_string)
+        f.write(final_string + '\n')
     return final_string
