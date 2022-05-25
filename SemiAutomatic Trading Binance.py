@@ -6,17 +6,18 @@ import sys
 
 # Command Line Argument
 symbol_altcoin = "LUNA"
+symbol_base_coin = "BUSD"
 pair = "LUNABUSD"
 
 # open connection with api
 client = Client(Constants.api_key, Constants.api_secret)
 
 # LUNA - BUSD closing last past 24h hourly
-bars = client.get_historical_klines(symbol_altcoin, Client.KLINE_INTERVAL_15MINUTE, "1 day ago UTC")
+bars = client.get_historical_klines(pair, Client.KLINE_INTERVAL_15MINUTE, "1 day ago UTC")
 closing_list = sma_trade_logic_hourly_oneday(bars)
 
 # BUSD free balance
-balance_BUSD_dict = client.get_asset_balance(asset='BUSD')
+balance_BUSD_dict = client.get_asset_balance(asset=symbol_base_coin)
 balance_BUSD = float(balance_BUSD_dict['free'])
 
 # LUNA free balance and price
@@ -26,7 +27,7 @@ prices = client.get_all_tickers()
 
 altcoin_price = 100000000000000000000
 for h in prices:
-    if h['symbol_altcoin'] == pair:
+    if h['symbol'] == symbol_altcoin:
         altcoin_price = float(h['price'])
 buy_amount = int((0.98 * balance_BUSD) / altcoin_price)  # amount of LUNAs to buy
 
@@ -43,7 +44,7 @@ if (ma_6 >= ma_18) & (balance_altcoin == 0):
     buy_order = client.order_market_buy(
         symbol=pair,
         quantity=buy_amount)
-    log_list.append(f'Buy {symbol_altcoin}')
+    log_list.append(f'Buy {symbol_altcoin}-{symbol_base_coin}')
     buy_sell_action("Buy", altcoin_price, buy_amount, datetime.now())
     print('Buy')
 
@@ -52,7 +53,7 @@ elif (ma_6 < ma_18) & (balance_altcoin != 0):
     sell_order = client.order_market_sell(
         symbol=pair,
         quantity=balance_altcoin)
-    log_list.append(f'Sell {symbol_altcoin}')
+    log_list.append(f'Sell {symbol_altcoin}{symbol_base_coin}')
     buy_sell_action("Sell", altcoin_price, balance_altcoin, datetime.now())
     buy_amount = int(0)
     print('Sell')
