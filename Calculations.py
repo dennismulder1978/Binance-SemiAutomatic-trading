@@ -9,7 +9,7 @@ def ma(input_list, length):
     return result
 
 
-def sma_trade_logic_15min_1day(bar_list):
+def ma_trade_logic(bar_list):
     return [float(i[4]) for i in bar_list]  # lst of pos[4] (is closing price) per time period, also str to float
 
 

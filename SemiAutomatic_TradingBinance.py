@@ -1,24 +1,24 @@
 from Secret import Constants
-from Calculations import sma_trade_logic_15min_1day, ma, log, buy_sell_action_log
+from Calculations import ma_trade_logic, ma, log, buy_sell_action_log
 from binance import Client
 from datetime import datetime
 import sys
 
 # Command Line Argument
 arg_list = sys.argv
+symbol_altcoin = "LUNA"
+symbol_basecoin = "BUSD"
 try:
     symbol_altcoin = str(arg_list[1])
     symbol_basecoin = str(arg_list[2])
 except IndexError:
-    symbol_altcoin = "LUNA"
-    symbol_basecoin = "BUSD"
-finally:
-    pair = str(symbol_altcoin + symbol_basecoin)
+    pass
+pair = str(symbol_altcoin + symbol_basecoin)
 
 
 # open connection with api, collect coins data
 client = Client(Constants.api_key, Constants.api_secret)
-closing_list = sma_trade_logic_15min_1day(
+closing_list = ma_trade_logic(
     client.get_historical_klines(pair, Client.KLINE_INTERVAL_15MINUTE, "1 day ago UTC"))
 prices = client.get_all_tickers()
 
@@ -49,13 +49,14 @@ log_list = []
 buy_amount = int(0)
 if (ma_6 >= ma_18) & (balance_altcoin == 0) & (balance_basecoin != 0):  # Buy order
     try:
-        buy_amount = 0.99 * balance_basecoin  # amount of BASEcoin to spend
+        buy_amount = 0.99 * balance_basecoin  # amount of BASEcoin to spend, ie 99%
         buy_order = client.order_market_buy(symbol=pair, quoteOrderQty=buy_amount)
         log_list.append('Buy')
         buy_sell_action_log(f'Buy,{pair},{altcoin_price},BASEcoin {buy_amount},{datetime.now()},none')
         print('Action = Buy')
     except Exception as e:
         buy_sell_action_log(f'Buy failed,{pair},{altcoin_price},BASEcoin {buy_amount},{datetime.now()},{e}')
+        log_list.append('Buy failed')
         print('Buy failed')
 
 elif (ma_6 < ma_18) & (balance_altcoin != 0):  # sell order
@@ -66,6 +67,7 @@ elif (ma_6 < ma_18) & (balance_altcoin != 0):  # sell order
         print('Action = Sell')
     except Exception as e:
         buy_sell_action_log(f'Sell failed,{pair},{altcoin_price},ALTcoin {balance_altcoin},{datetime.now()},{e}')
+        log_list.append('Sell failed')
         print('Sell failed')
 
 else:
