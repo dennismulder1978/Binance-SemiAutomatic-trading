@@ -49,7 +49,7 @@ log_list = []
 buy_amount = int(0)
 if (ma_6 >= ma_18) & (balance_altcoin == 0) & (balance_basecoin != 0):  # Buy order
     try:
-        buy_amount = 0.98 * balance_basecoin  # amount of ALTCOINS # to buy
+        buy_amount = 0.99 * balance_basecoin  # amount of BASEcoin to spend
         buy_order = client.order_market_buy(symbol=pair, quoteOrderQty=buy_amount)
         log_list.append('Buy')
         buy_sell_action_log(f'Buy,{pair},{altcoin_price},BASEcoin {buy_amount},{datetime.now()},none')
