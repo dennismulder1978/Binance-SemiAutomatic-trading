@@ -5,6 +5,7 @@ SEMI AUTOMATIC trading ON BINANCE
 
 Always use at own risc!!
 Works with real currency!!
+To be used with crontab.
 
 excecute: SemiAutomatic_TradingBinance.py <<ALT_COIN>> <<BASE_COIN>>
 
