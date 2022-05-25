@@ -38,8 +38,8 @@ for each in prices:
 
 
 # Determine the MA's
-ma_6 = round(ma(closing_list, 4 * 6), 8)  # use 4* per hour at 15min interval
-ma_18 = round(ma(closing_list, 4 * 18), 8)  # use 4 * per hour at 15min interval
+ma_6 = round(ma(closing_list, 4 * 6), 8)  # use 4* 6 hours at 15min interval
+ma_18 = round(ma(closing_list, 4 * 18), 8)  # use 4 * 18 hours at 15min interval
 print(f'MA-6 {pair}: {ma_6}')
 print(f'MA-18 {pair}: {ma_18}')
 
