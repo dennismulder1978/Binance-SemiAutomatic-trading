@@ -1,8 +1,7 @@
 from Secret import Constants
-from Calculations import sma_trade_logic_hourly_oneday, ma, log
+from Calculations import sma_trade_logic_hourly_oneday, ma, log, buy_sell_action
 from binance import Client
 from datetime import datetime
-
 
 # open connection with api
 client = Client(Constants.api_key, Constants.api_secret)
@@ -24,14 +23,13 @@ LUNA_price = 100000000000000000000
 for h in prices:
     if h['symbol'] == "LUNABUSD":
         LUNA_price = float(h['price'])
-buy_amount = int((0.98 * balance_BUSD) / LUNA_price)
+buy_amount = int((0.98 * balance_BUSD) / LUNA_price)  # amount of LUNAs to buy
 
 # Determine the MA's
 ma_6 = round(ma(closing_list, 6), 8)
 ma_18 = round(ma(closing_list, 18), 8)
 print(f'MA6: {ma_6}')
 print(f'MA18: {ma_18}')
-
 
 # Buy or Sell? that's the question
 log_list = []
@@ -41,6 +39,7 @@ if (ma_6 >= ma_18) & (balance_LUNA == 0):
         symbol='LUNABUSD',
         quantity=buy_amount)
     log_list.append('Buy LUNA')
+    buy_sell_action("Buy", LUNA_price, buy_amount, datetime.now())
     print('Buy')
 
 elif (ma_6 < ma_18) & (balance_LUNA != 0):
@@ -49,14 +48,14 @@ elif (ma_6 < ma_18) & (balance_LUNA != 0):
         symbol='LUNABUSD',
         quantity=balance_LUNA)
     log_list.append('Sell LUNA')
+    buy_sell_action("Sell", LUNA_price, balance_LUNA, datetime.now())
     buy_amount = int(0)
-    print('sell')
+    print('Sell')
 
 else:
     log_list.append('No action')
     buy_amount = int(0)
     print('Do nothing')
-
 
 # register al off the action
 log_list.append(str(buy_amount))
