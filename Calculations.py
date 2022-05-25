@@ -5,10 +5,14 @@ def ma(input_list, length):
     :param length: is the backtrack-length.
     :return: the average of the closing prices is the backtrack-length
     """
-    if length == 24:
+    length = length * 4  # correct hourly rate to 15 minute
+
+    if length == 96:
         short_list = input_list
     else:
-        short_list = input_list[23 - length:-1:]
+        short_list = input_list[95 - length:-1:]
+    print(short_list)
+
     length_list = len(short_list)
     summery = float(0.0)
     for j in short_list:
