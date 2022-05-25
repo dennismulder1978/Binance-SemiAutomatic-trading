@@ -1,4 +1,4 @@
 # binance
 Trading on binance
 
-LUNA/ BUSB trading
+SEMI AUTOMATIC trading ON BINANCE
