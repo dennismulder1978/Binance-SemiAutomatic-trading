@@ -54,7 +54,7 @@ def buy_sell_action(action, price_LUNA, amount, datetime):
         with open('Secret/action.csv', 'w') as g:
             g.write("Action,LUNA price,Amount,DateTime\n")
             g.close()
-    with open('Secret/log.csv', 'a') as f:
-        f.write(action + "," + price_LUNA + "," + amount + "," + datetime + '\n')
+    with open('Secret/action.csv', 'a') as f:
+        f.write(str(action) + "," + str(price_LUNA) + "," + str(amount) + "," + str(datetime) + '\n')
         f.close()
     return
