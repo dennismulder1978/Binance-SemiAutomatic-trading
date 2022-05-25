@@ -1,6 +1,6 @@
 def ma(input_list, length):
-    input_list = input_list[:-1]  # pop off incomplete time-period
-    short_list = input_list[-length::]  # shorten list to required length
+    input_list = input_list[:-1]  # pop off last (=incomplete) time-period
+    short_list = input_list[-length::]  # shorten list to requested length
     try:
         result = sum(short_list)/len(short_list)
     except Exception as e:
@@ -10,7 +10,7 @@ def ma(input_list, length):
 
 
 def ma_trade_logic(bar_list):
-    return [float(i[4]) for i in bar_list]  # lst of pos[4] (is closing price) per time period, also str to float
+    return [float(i[4]) for i in bar_list]  # list of pos[4] (is closing price) per time period, also str to float
 
 
 def log(log_list):
