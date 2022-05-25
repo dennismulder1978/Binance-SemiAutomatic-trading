@@ -22,11 +22,6 @@ def ma(input_list, length):
 
 
 def sma_trade_logic_hourly_oneday(bar_list):
-    """
-    Calculation
-    :param bar_list: is binance trading set data
-    :return: list of hourly of past 24h closing prices
-    """
     closing_list = []
     for i in bar_list:
         closing_list.append(i[4])
@@ -39,7 +34,7 @@ def log(log_list):
         open('Secret/log.csv')
     except:
         with open('Secret/log.csv', 'w') as g:
-            g.write("Action,Buy amount,LUNA price,MA_6h,MA_18h,balance LUNA,balance BUSD,datetime\n")
+            g.write("Action,Buy amount,Altcoin price,MA_6h,MA_18h,balance LUNA,balance BUSD,datetime\n")
             g.close()
     with open('Secret/log.csv', 'a') as f:
         f.write(final_string + '\n')
@@ -47,14 +42,14 @@ def log(log_list):
     return
 
 
-def buy_sell_action(action, price_LUNA, amount, datetime):
+def buy_sell_action(action, price_altcoin, amount, datetime):
     try:
         open('Secret/action.csv')
     except:
         with open('Secret/action.csv', 'w') as g:
-            g.write("Action,LUNA price,Amount,DateTime\n")
+            g.write("Action,Altcoin price,Amount,DateTime\n")
             g.close()
     with open('Secret/action.csv', 'a') as f:
-        f.write(str(action) + "," + str(price_LUNA) + "," + str(amount) + "," + str(datetime) + '\n')
+        f.write(str(action) + "," + str(price_altcoin) + "," + str(amount) + "," + str(datetime) + '\n')
         f.close()
     return
