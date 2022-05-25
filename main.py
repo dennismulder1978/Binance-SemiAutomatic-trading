@@ -38,7 +38,7 @@ if (ma_6 >= ma_18) & (balance_LUNA == 0):
         symbol='LUNABUSD',
         quantity=buy_amount)
     log_list.append('Buy LUNA')
-elif (ma_6 > ma_18) & (balance_LUNA != 0):
+elif (ma_6 < ma_18) & (balance_LUNA != 0):
     # sell order
     sell_order = client.order_market_sell(
         symbol='LUNABUSD',
