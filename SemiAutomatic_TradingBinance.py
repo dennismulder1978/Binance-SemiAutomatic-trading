@@ -18,7 +18,7 @@ pair = str(symbol_altcoin + symbol_basecoin)
 # open connection with api, collect coins data
 client = Client(Constants.api_key, Constants.api_secret)
 closing_list = ma_trade_logic(
-    client.get_historical_klines(pair, Client.KLINE_INTERVAL_15MINUTE, "1 day ago UTC"))
+    client.get_historical_klines(pair, Client.KLINE_INTERVAL_5MINUTE, "1 day ago UTC"))
 prices = client.get_all_tickers()
 
 # basecoin and altcoin free balance
@@ -34,8 +34,8 @@ for each in prices:
         altcoin_price = float(each['price'])
 
 # Determine the MA's
-ma_6 = round(ma(closing_list, 4 * 6), 8)  # use 4* 6 hours at 15min interval
-ma_18 = round(ma(closing_list, 4 * 18), 8)  # use 4 * 18 hours at 15min interval
+ma_6 = round(ma(closing_list, 12 * 6), 8)  # use 12* (6 hours) b.o. 5min interval
+ma_18 = round(ma(closing_list, 12 * 18), 8)  # use 12 * (18 hours) b.o. 5min interval
 print(f'MA-6 {pair}: {ma_6}')
 print(f'MA-18 {pair}: {ma_18}')
 
