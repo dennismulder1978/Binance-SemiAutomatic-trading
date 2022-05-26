@@ -6,8 +6,8 @@ import sys
 
 # Command Line Argument
 arg_list = sys.argv
-symbol_altcoin = "LUNA"
-symbol_basecoin = "BUSD"
+symbol_altcoin = "LUNA"  # default altcoin
+symbol_basecoin = "BUSD"  # default basecoin
 try:
     symbol_altcoin = str(arg_list[1])
     symbol_basecoin = str(arg_list[2])
@@ -15,13 +15,11 @@ except IndexError:
     pass
 pair = str(symbol_altcoin + symbol_basecoin)
 
-
 # open connection with api, collect coins data
 client = Client(Constants.api_key, Constants.api_secret)
 closing_list = ma_trade_logic(
     client.get_historical_klines(pair, Client.KLINE_INTERVAL_15MINUTE, "1 day ago UTC"))
 prices = client.get_all_tickers()
-
 
 # basecoin and altcoin free balance
 balance_basecoin_dict = client.get_asset_balance(asset=symbol_basecoin)
@@ -29,20 +27,17 @@ balance_basecoin = float(balance_basecoin_dict['free'])
 balance_alt_dict = client.get_asset_balance(asset=symbol_altcoin)
 balance_altcoin = float(balance_alt_dict['free'])
 
-
 # ALT-BASE price
 altcoin_price = 100000000000000000000  # alternative price
 for each in prices:
     if each['symbol'] == pair:
         altcoin_price = float(each['price'])
 
-
 # Determine the MA's
 ma_6 = round(ma(closing_list, 4 * 6), 8)  # use 4* 6 hours at 15min interval
 ma_18 = round(ma(closing_list, 4 * 18), 8)  # use 4 * 18 hours at 15min interval
 print(f'MA-6 {pair}: {ma_6}')
 print(f'MA-18 {pair}: {ma_18}')
-
 
 # Buy or Sell? that's the question
 log_list = []
