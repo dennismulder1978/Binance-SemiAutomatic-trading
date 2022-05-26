@@ -19,7 +19,8 @@ def log(log_list):
         open('Secret/log.csv')
     except FileNotFoundError:
         with open('Secret/log.csv', 'w') as g:
-            g.write("Action,ALTcoin," +
+            g.write("Action," +
+                    "ALTcoin," +
                     "BASEcoin," +
                     "Buy amount," +
                     "Altcoin price," +
