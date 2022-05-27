@@ -6,7 +6,7 @@ import sys
 
 # Command Line Argument
 arg_list = sys.argv
-symbol_altcoin = "LUNA"  # default altcoin
+symbol_altcoin = "SOL"  # default altcoin
 symbol_basecoin = "BUSD"  # default basecoin
 try:
     symbol_altcoin = str(arg_list[1])
