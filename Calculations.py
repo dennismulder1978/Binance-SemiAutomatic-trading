@@ -49,6 +49,6 @@ def buy_sell_action_log(stringer):
                     'Error\n')
             g.close()
     with open('Secret/action.csv', 'a') as f:
-        f.write(stringer)
+        f.write(stringer + '\n')
         f.close()
     return
