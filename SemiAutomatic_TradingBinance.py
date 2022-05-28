@@ -23,7 +23,12 @@ closing_list = ma_trade_logic(
 
 prices = client.get_all_tickers()
 
-# basecoin and altcoin free balance
+# BNB, BUSD, basecoin and altcoin free balance
+balance_BNB_dict = client.get_asset_balance(asset='BNB')
+balance_BNB = float(balance_BNB_dict['free'])
+balance_BUSD_dict = client.get_asset_balance(asset='BUSD')
+balance_BUSD = float(balance_BUSD_dict['free'])
+
 balance_basecoin_dict = client.get_asset_balance(asset=symbol_basecoin)
 balance_basecoin = float(balance_basecoin_dict['free'])
 balance_alt_dict = client.get_asset_balance(asset=symbol_altcoin)
@@ -82,3 +87,31 @@ log_list.append(str(balance_altcoin))
 log_list.append(str(balance_basecoin))
 log_list.append(str(datetime.now()))
 log(log_list)
+
+
+#  adding BNB to balance
+BNB_log_list = []
+if (balance_BNB < 0.1) & (balance_BUSD > 10):
+    try:
+        buy_order = client.order_market_buy(symbol='BNBBUSD', quoteOrderQty=10)
+        buy_sell_action_log(f'Buy-BNB,BNBBUSD,na,na,{datetime.now()},none')
+        BNB_log_list.append('Buy BNB')
+        print('Action = Buy BNB')
+    except Exception as e:
+        buy_sell_action_log(f'Buy-BNB failed,BNBBUSD,na,na,{datetime.now()},{e}')
+        BNB_log_list.append('Buy failed BNB')
+        print(f'Buy-BNB failed - {e}')
+else:
+    BNB_log_list.append('Didn\'t buy BNB')
+    print('Action = Didn\'t buy BNB')
+
+BNB_log_list.append('BNB')
+BNB_log_list.append('BUSD')
+BNB_log_list.append('na')
+BNB_log_list.append('na')
+BNB_log_list.append('na')
+BNB_log_list.append('na')
+BNB_log_list.append(str(balance_BNB))
+BNB_log_list.append(str(balance_BUSD))
+BNB_log_list.append(str(datetime.now()))
+log(BNB_log_list)
